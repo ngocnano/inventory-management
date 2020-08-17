@@ -32,7 +32,7 @@ public class Users {
     @Column(name = "update_date")
     private Date updateDate;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "userId")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "users")
     private Set<UserRole> userRoles;
 
     public Users(Integer id, String userName, String password, String email
@@ -45,6 +45,82 @@ public class Users {
         this.activeFlag = activeFlag;
         this.createDate = createDate;
         this.updateDate = updateDate;
+        this.userRoles = userRoles;
+    }
+
+    public Users() {
+
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getActiveFlag() {
+        return activeFlag;
+    }
+
+    public void setActiveFlag(int activeFlag) {
+        this.activeFlag = activeFlag;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
     }
 }

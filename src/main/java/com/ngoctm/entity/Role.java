@@ -22,10 +22,14 @@ public class Role {
     private Date createDate;
     @Column(name = "update_date")
     private Date updateDate;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private Set<Auth> auths;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private Set<UserRole> userRoles;
+
+    public Role(){
+
+    }
 
     public Role(Integer id, String roleName, String description, int activeFlag,
                 Date createDate, Date updateDate, Set auths, Set userRoles) {

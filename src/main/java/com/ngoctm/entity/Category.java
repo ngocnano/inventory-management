@@ -18,7 +18,7 @@ public class Category {
     private int activeFlag;
     private Date createDate;
     private Date updateDate;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cate_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "category")
     private Set<ProductInfo> productInfos;
 
     public Category(){

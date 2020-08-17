@@ -1,9 +1,7 @@
 package com.ngoctm.entity;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by ngoctm
@@ -29,8 +27,10 @@ public class Menu {
     private Date createDate;
     @Column(name = "update_date")
     private Date updateDate;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "menu_id")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "menu")
     private Set<Auth> auths;
+    @Transient
+    private List<Menu> menuChild;
 
 
     public Menu(){
@@ -132,5 +132,20 @@ public class Menu {
 
     public void setAuths(Set<Auth> auths) {
         this.auths = auths;
+    }
+
+    public List<Menu> getMenuChild() {
+        return menuChild;
+    }
+
+    public void setMenuChild(List<Menu> menuChild) {
+        this.menuChild = menuChild;
+    }
+
+    public void addChildMenu(Menu menu){
+        if(this.menuChild == null){
+            menuChild = new ArrayList<>();
+        }
+        menuChild.add(menu);
     }
 }

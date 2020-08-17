@@ -83,6 +83,20 @@
       <version>1.4</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-extras -->
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-extras</artifactId>
+      <version>3.0.5</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+
 
     <dependency>
       <groupId>junit</groupId>
