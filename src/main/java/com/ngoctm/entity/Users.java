@@ -2,6 +2,7 @@ package com.ngoctm.entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class Users {
     @Column(name = "id")
     private Integer id;
     @Column(name = "user_name")
+    @Max(value = 5, message = "max max")
     private String userName;
     @Column(name = "password")
     private String password;

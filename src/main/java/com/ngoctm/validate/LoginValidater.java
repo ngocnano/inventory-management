@@ -32,9 +32,8 @@ public class LoginValidater implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
+
         Users users = (Users) o;
-
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"userName","msg.required");
         ValidationUtils.rejectIfEmpty(errors,"password", "msg.required");
 

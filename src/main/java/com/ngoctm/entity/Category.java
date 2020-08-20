@@ -1,6 +1,12 @@
 package com.ngoctm.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +21,13 @@ public class Category {
     private String name;
     private String code;
     private String description;
+    @Column(name = "active_flag")
     private int activeFlag;
+    @Column(name = "create_date")
+    @CreationTimestamp
     private Date createDate;
+    @UpdateTimestamp
+    @Column(name = "update_date")
     private Date updateDate;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "category")
     private Set<ProductInfo> productInfos;
@@ -97,5 +108,16 @@ public class Category {
 
     public void setProductInfos(Set<ProductInfo> productInfos) {
         this.productInfos = productInfos;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", description='" + description + '\'' +
+                ", activeFlag=" + activeFlag +
+                '}';
     }
 }

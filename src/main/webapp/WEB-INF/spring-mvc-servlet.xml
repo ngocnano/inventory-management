@@ -23,6 +23,12 @@
 
         <!-- Mapping static resource -->
         <mvc:resources mapping="/resources/**" location="/resources/" />
+        <mvc:resources mapping="/upload/**" location="file://${upload.servlet.location}"/>
+
+        <bean id="multipartResolver"
+              class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+                <property name="maxUploadSize" value="268435456" />
+        </bean>
 
 
         <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
@@ -33,6 +39,7 @@
 
         <!-- Load property file -->
         <context:property-placeholder location="classpath*:jdbc.properties" />
+        <context:property-placeholder location="classpath:config.properties"/>
 
         <!-- Data Source config -->
         <bean name="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -73,5 +80,19 @@
                 <property name="basename" value="messages"/>
                 <property name="defaultEncoding" value="UTF-8"/>
         </bean >
+
+        <!-- Filter -->
+        <mvc:interceptors>
+                <mvc:interceptor>
+                        <mvc:mapping path="/**"/>
+                        <mvc:exclude-mapping path="/login"/>
+                        <mvc:exclude-mapping path="/logout"/>
+                        <mvc:exclude-mapping path="/processLogin"/>
+                        <mvc:exclude-mapping path="/access-denied"/>
+                        <mvc:exclude-mapping path="/resources/**"/>
+                        <mvc:exclude-mapping path="/upload/**"/>
+                        <bean class="com.ngoctm.security.FilterSystem"></bean>
+                </mvc:interceptor>
+        </mvc:interceptors>
 
 </beans>

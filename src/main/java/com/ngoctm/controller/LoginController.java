@@ -33,6 +33,7 @@ public class LoginController {
             binder.setValidator(loginValidator);
         }
     }
+
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("loginForm", new Users());
@@ -78,6 +79,20 @@ public class LoginController {
         session.setAttribute(Constant.USER_INFO, user);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute(Constant.MENU_SESSION);
+        session.removeAttribute(Constant.USER_INFO);
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/access-denied")
+    public String accessDenied(){
+
+        return "error/page_403";
     }
 
 }

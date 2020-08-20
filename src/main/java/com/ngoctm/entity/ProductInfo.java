@@ -2,6 +2,7 @@ package com.ngoctm.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,11 +22,15 @@ public class ProductInfo {
     private String code;
     private String name;
     private String description;
+    @Column(name = "img_url")
     private String imgUrl;
+    @Column(name = "active_flag")
     private int activeFlag;
     @CreationTimestamp
+    @Column(name = "create_date")
     private Date createDate;
     @UpdateTimestamp
+    @Column(name = "update_date")
     private Date updateDate;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "productInfo")
     private Set<History> histories;
@@ -33,6 +38,8 @@ public class ProductInfo {
     private Set<ProductInStock> productInStocks;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "productInfo")
     private Set<Invoice> invoices;
+    @Transient
+    private MultipartFile multipartFile;
 
     public ProductInfo(){
 
@@ -143,5 +150,13 @@ public class ProductInfo {
 
     public void setInvoices(Set<Invoice> invoices) {
         this.invoices = invoices;
+    }
+
+    public MultipartFile getMultipartFile() {
+        return multipartFile;
+    }
+
+    public void setMultipartFile(MultipartFile multipartFile) {
+        this.multipartFile = multipartFile;
     }
 }

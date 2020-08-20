@@ -73,7 +73,7 @@
                     <a data-toggle="tooltip" data-placement="top" title="Lock">
                         <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                     </a>
-                    <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                    <a data-toggle="tooltip" data-placement="top" title="Logout" href="<c:url value="/logout"/> ">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     </a>
                 </div>
@@ -111,6 +111,11 @@
 <script src="<c:url value="/resources/vendors/nprogress/nprogress.js"/>"></script>
 <!-- jQuery custom content scroller -->
 <script src="<c:url value="/resources/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"/>"></script>
+
+<!-- PNotify -->
+<script src="<c:url value="/resources/vendors/pnotify/dist/pnotify.js"/>"></script>
+<script src="<c:url value="/resources/vendors/pnotify/dist/pnotify.buttons.js"/>"></script>
+<script src="<c:url value="/resources/vendors/pnotify/dist/pnotify.nonblock.js"/>"></script>
 
 <!-- Custom Theme Scripts -->
 <script src="<c:url value="/resources/build/js/custom.min.js"/>"></script>

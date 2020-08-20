@@ -11,6 +11,22 @@
     <definition name="index" extends="master">
         <put-attribute name="body" value ="/WEB-INF/views/index.jsp"></put-attribute>
     </definition>
+
+    <definition name="category/category-action" extends="master">
+        <put-attribute name="body" value="/WEB-INF/views/category/category-action.jsp"></put-attribute>
+    </definition>
+
+    <definition name="category/category-list" extends="master">
+        <put-attribute name="body" value="/WEB-INF/views/category/category-list.jsp"></put-attribute>
+    </definition>
+
+    <definition name="product/product-action" extends="master">
+        <put-attribute name="body" value="/WEB-INF/views/product/product-action.jsp"/>
+    </definition>
+
+    <definition name="product/product-list" extends="master">
+        <put-attribute name="body" value="/WEB-INF/views/product/product-list.jsp"/>
+    </definition>
 </tiles-definitions>
 
 
