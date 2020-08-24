@@ -3,6 +3,7 @@ package com.ngoctm.service;
 import com.ngoctm.dao.CategoryDAO;
 import com.ngoctm.dao.ProductInfoDAO;
 import com.ngoctm.entity.Category;
+import com.ngoctm.entity.Invoice;
 import com.ngoctm.entity.Paging;
 import com.ngoctm.entity.ProductInfo;
 import com.ngoctm.util.ConfigLoader;
@@ -10,13 +11,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Transactional
 public class ProductService {
 
     Logger logger = Logger.getLogger(ProductService.class);
@@ -52,30 +56,24 @@ public class ProductService {
         return categoryDAO.findByProperty(property,value);
     }
 
-    public List<Category> findAllCategory(Paging paging){
+    public List<Category> findAllCategory(Category category, Paging paging){
         logger.info("Find all Category");
-        return categoryDAO.findAll(paging, "");
-    }
-
-    public List<Category> searchCategory(Category category, Paging paging){
-
         StringBuilder queryStr = new StringBuilder();
-        if(category!=null) {
-            if(category.getId()!=null && category.getId()!=0) {
-                queryStr.append(" and c.id=" + category.getId());
+        if(category != null) {
+            if (category.getId() != null && category.getId() != 0) {
+                queryStr.append(" and model.id=" + category.getId());
             }
-            if(category.getCode()!=null && !StringUtils.isEmpty(category.getCode())) {
-                queryStr.append(" and c.code=\'" + category.getCode() + "\'");
+            if (category.getCode() != null && !StringUtils.isEmpty(category.getCode())) {
+                queryStr.append(" and model.code like \'%" + category.getCode() + "%\'");
             }
-            if(category.getName()!=null && !StringUtils.isEmpty(category.getName()) ) {
-                queryStr.append(" and c.name=\'" + category.getName() + "\'");
+            if (category.getName() != null && !StringUtils.isEmpty(category.getName())) {
+                queryStr.append(" and model.name like \'%" + category.getName() + "%\'");
             }
-            logger.info(queryStr);
-            return categoryDAO.findAll(paging,queryStr.toString());
         }
-
-        return null;
+        logger.info(queryStr);
+        return categoryDAO.findAll(paging,queryStr.toString());
     }
+
 
     public Category findCategoryById(int id){
 
@@ -90,17 +88,18 @@ public class ProductService {
     public void saveProductInfo(ProductInfo productInfo) throws IOException {
         logger.info("Save ProductInfo" + productInfo);
         productInfo.setActiveFlag(1);
-        processUploadFile(productInfo.getMultipartFile());
-        productInfo.setImgUrl("/upload/"+System.currentTimeMillis()+"_"+productInfo.getMultipartFile().getOriginalFilename());
+        String fileName = System.currentTimeMillis()+"_"+productInfo.getMultipartFile().getOriginalFilename();
+        processUploadFile(productInfo.getMultipartFile(),fileName);
+        productInfo.setImgUrl("/upload/"+fileName);
         productInfoDAO.save(productInfo);
     }
 
     public void updateProductInfo(ProductInfo productInfo) throws IOException {
         logger.info("Update ProductInfo" + productInfo);
-        processUploadFile(productInfo.getMultipartFile());
-        if(productInfo.getMultipartFile()!=null) {
-            productInfo.setImgUrl("/upload/"+System.currentTimeMillis()+"_"+productInfo.getMultipartFile().getOriginalFilename());
-        }
+        String fileName = System.currentTimeMillis()+"_"+productInfo.getMultipartFile().getOriginalFilename();
+        processUploadFile(productInfo.getMultipartFile(),fileName);
+        productInfo.setImgUrl("/upload/"+System.currentTimeMillis()+"_"+productInfo.getMultipartFile().getOriginalFilename());
+
         productInfoDAO.update(productInfo);
     }
 
@@ -115,37 +114,32 @@ public class ProductService {
         return productInfoDAO.findByProperty(property,value);
     }
 
-    public List<ProductInfo> findAllPrductInfo(Paging paging){
+    public List<ProductInfo> findAllPrductInfo(ProductInfo productInfo,Paging paging){
         logger.info("Find all Category");
-        return productInfoDAO.findAll(paging,"");
-    }
-
-    public List<ProductInfo> searchProductInfo(ProductInfo productInfo, Paging paging){
         StringBuilder queryStr = new StringBuilder();
+
         if(productInfo!=null) {
             if(productInfo.getId()!=null && productInfo.getId()!=0) {
-                queryStr.append(" and c.id=" + productInfo.getId());
+                queryStr.append(" and model.id=" + productInfo.getId());
             }
             if(productInfo.getCode()!=null && !StringUtils.isEmpty(productInfo.getCode())) {
-                queryStr.append(" and c.code=\'" + productInfo.getCode() + "\'");
+                queryStr.append(" and model.code like \'%" + productInfo.getCode() + "%\'");
             }
             if(productInfo.getName()!=null && !StringUtils.isEmpty(productInfo.getName()) ) {
-                queryStr.append(" and c.name=\'" + productInfo.getName() + "\'");
+                queryStr.append(" and model.name like \'%" + productInfo.getName() + "%\'");
             }
             logger.info(queryStr);
-            return productInfoDAO.findAll(paging,queryStr.toString());
         }
-
-        return null;
+        return productInfoDAO.findAll(paging, queryStr.toString());
     }
 
-    private void processUploadFile(MultipartFile multipartFile) throws IllegalStateException, IOException {
+
+    private void processUploadFile(MultipartFile multipartFile, String fileName) throws IllegalStateException, IOException {
         if(multipartFile!=null) {
             File dir = new File(configLoader.getValue("upload.location"));
             if(!dir.exists()) {
                 dir.mkdirs();
             }
-            String fileName = System.currentTimeMillis()+"_"+multipartFile.getOriginalFilename();
             File file = new File(configLoader.getValue("upload.location"),fileName);
             logger.info("Create file ==============================> " + file.getPath());
             multipartFile.transferTo(file);

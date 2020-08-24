@@ -18,8 +18,8 @@
 				<div class="x_content">
 						<a href="<c:url value="/product/category/add"/>" class="btn btn-app"><i class="fa fa-plus"></i>Add</a>
 						<div class="container" style="padding: 50px;">
-							<form:form modelAttribute="searchForm" cssClass="form-horizontal form-label-left"
-									   action="${pageContext.request.contextPath}/product/category/search" method="POST">
+							<form:form modelAttribute="searchFormC" cssClass="form-horizontal form-label-left"
+									   action="${pageContext.request.contextPath}/product/category/list/1" method="POST">
 								<div class="form-group">
 									<label for="id" class="control-label col-md-3 col-sm-3 col-xs-12">ID</label>
 									<div class="col-md-6 col-sm-6 col-xs-12">
@@ -81,7 +81,7 @@
 								<td class=" ">${category.code } </td>
 								<td class=" ">${category.name }</td>
 								<td class=" ">${category.description }</td>
-								<td class="text-center"><a href="<c:url value="/product/category/edit/${category.id }"/>" class="btn btn-round btn-default">View</a></td>
+								<td class="text-center"><a href="<c:url value="/product/category/add/${category.id }"/>" class="btn btn-round btn-default">View</a></td>
 								<td class="text-center"><a href="<c:url value="/product/category/edit/${category.id }"/>" class="btn btn-round btn-primary">Edit</a></td>
 								<td class="text-center"><a href="javascript:void(0);" onclick="confirmDelete(${category.id});" class="btn btn-round btn-danger">Delete</a></td>
 								</tr>
@@ -106,7 +106,7 @@
 	}
 
 	function gotoPage(page){
-		$('#searchForm').attr('action','<c:url value="/product/category/list/"/>'+page);
-		$('#searchForm').submit();
+		$('#searchFormC').attr('action','<c:url value="/product/category/list/"/>'+page);
+		$('#searchFormC').submit();
 	}
 </script>

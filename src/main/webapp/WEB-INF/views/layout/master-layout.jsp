@@ -27,9 +27,13 @@
     <link href="<c:url value="/resources/vendors/nprogress/nprogress.css"/>" rel="stylesheet">
     <!-- jQuery custom content scroller -->
     <link href="<c:url value="/resources/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css"/>" rel="stylesheet"/>
+    <!-- bootstrap-datetimepicker -->
+    <link href="<c:url value="/resources/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"/>" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="<c:url value="/resources/build/css/custom.min.css"/>" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="<c:url value="/resources/vendors/jquery/dist/jquery.min.js"/>"></script>
 </head>
 
 <body class="nav-md footer_fixed">
@@ -116,6 +120,11 @@
 <script src="<c:url value="/resources/vendors/pnotify/dist/pnotify.js"/>"></script>
 <script src="<c:url value="/resources/vendors/pnotify/dist/pnotify.buttons.js"/>"></script>
 <script src="<c:url value="/resources/vendors/pnotify/dist/pnotify.nonblock.js"/>"></script>
+
+<!-- bootstrap-datetimepicker -->
+<!-- bootstrap-daterangepicker -->
+<script src="<c:url value="/resources/vendors/moment/min/moment.min.js"/>"></script>
+<script src="<c:url value="/resources/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"/>"></script>
 
 <!-- Custom Theme Scripts -->
 <script src="<c:url value="/resources/build/js/custom.min.js"/>"></script>

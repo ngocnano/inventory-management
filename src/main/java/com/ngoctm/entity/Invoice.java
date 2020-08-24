@@ -18,13 +18,16 @@ public class Invoice {
     @JoinColumn(name = "product_id")
     private ProductInfo productInfo;
     private String code;
-    private int type;
+    private Integer type;
     private int qty;
     private BigDecimal price;
+    @Column(name = "active_flag")
     private int activeFlag;
     @CreationTimestamp
+    @Column(name = "create_date")
     private Date createDate;
     @UpdateTimestamp
+    @Column(name = "update_date")
     private Date updateDate;
 
     public Invoice(){
@@ -64,11 +67,11 @@ public class Invoice {
         this.code = code;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -110,5 +113,20 @@ public class Invoice {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "id=" + id +
+                ", productInfo=" + productInfo +
+                ", code='" + code + '\'' +
+                ", type=" + type +
+                ", qty=" + qty +
+                ", price=" + price +
+                ", activeFlag=" + activeFlag +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                '}';
     }
 }

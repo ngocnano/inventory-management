@@ -3,7 +3,7 @@ package com.ngoctm.controller;
 import com.ngoctm.entity.Category;
 import com.ngoctm.entity.Paging;
 import com.ngoctm.service.ProductService;
-import com.ngoctm.validate.CategoryValidater;
+import com.ngoctm.validate.CategoryValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLOutput;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -22,13 +22,11 @@ public class CategoryController {
 
     static final Logger logger = Logger.getLogger(CategoryController.class);
 
-    private Paging paging;
-
     @Autowired
     ProductService productService;
 
     @Autowired
-    CategoryValidater categoryValidater;
+    CategoryValidator categoryValidater;
 
     @InitBinder
     private void initBinder(WebDataBinder binder){
@@ -41,24 +39,21 @@ public class CategoryController {
     }
 
     @RequestMapping("/list")
-    public String redirect() {
+    public String redirect(HttpSession session) {
+        if(session.getAttribute("searchFormC") != null){
+            session.removeAttribute("searchFormC");
+        }
+
         return "redirect:/product/category/list/1";
     }
 
-    @GetMapping("/list/{page}")
-    public String showCategoryList(@PathVariable("page") int page,Model model){
+    @RequestMapping("/list/{page}")
+    public String showCategoryList(@PathVariable("page") int page,Model model, @ModelAttribute("searchFormC") Category category){
         logger.info("show category list");
-        if(paging == null){
-            paging = new Paging(10);
-        }
-        else {
-            paging.setIndexPage(page);
-        }
-
-        List<Category> categoryList = productService.findAllCategory(paging);
-        model.addAttribute("listCategory", categoryList);
-        model.addAttribute("searchForm", new Category());
-        model.addAttribute("pageInfo", paging);
+        Paging paging = new Paging(10,page);
+            List<Category> categoryList = productService.findAllCategory(category, paging);
+            model.addAttribute("listCategory", categoryList);
+            model.addAttribute("pageInfo", paging);
         return "category/category-list";
     }
 
@@ -96,7 +91,7 @@ public class CategoryController {
         } else {
             productService.updateCategory(category);
         }
-        model.addAttribute("searchForm", new Category());
+        model.addAttribute("searchFormC", new Category());
 
         return "category/category-list";
     }
@@ -111,17 +106,6 @@ public class CategoryController {
         productService.deleteCategory(category);
 
         return "redirect:/product/category/list";
-    }
-
-    @PostMapping("/search")
-    public String searchCategory(@ModelAttribute("searchForm") Category category, Model model){
-
-        logger.info("search category" + category);
-        List<Category> categoryList = productService.searchCategory(category, paging);
-        model.addAttribute("listCategory", categoryList);
-        model.addAttribute("searchForm", category);
-        System.out.println("================================================> " + categoryList.size());
-        return "category/category-list";
     }
 
 }

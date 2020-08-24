@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional(rollbackFor = Exception.class)
 public class CategoryDAOImpl extends BaseDAOImpl<Category> implements CategoryDAO<Category>{
     @Override
     public List<Category> searchCategory(String querry) {

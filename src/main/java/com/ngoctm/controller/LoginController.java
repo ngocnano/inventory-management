@@ -3,7 +3,7 @@ package com.ngoctm.controller;
 import com.ngoctm.entity.*;
 import com.ngoctm.service.UserService;
 import com.ngoctm.util.Constant;
-import com.ngoctm.validate.LoginValidater;
+import com.ngoctm.validate.LoginValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class LoginController {
@@ -24,7 +22,7 @@ public class LoginController {
     UserService userService;
 
     @Autowired
-    LoginValidater loginValidator;
+    LoginValidator loginValidator;
 
     @InitBinder
     private void initBinder(WebDataBinder binder) {

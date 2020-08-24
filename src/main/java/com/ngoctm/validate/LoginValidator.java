@@ -12,12 +12,11 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import java.util.List;
-import java.util.Locale;
 
 @Component
-public class LoginValidater implements Validator {
+public class LoginValidator implements Validator {
 
-    static Logger logger = Logger.getLogger(LoginValidater.class);
+    static Logger logger = Logger.getLogger(LoginValidator.class);
 
     @Autowired
     UserService userService;

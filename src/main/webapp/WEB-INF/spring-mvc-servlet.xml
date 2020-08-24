@@ -23,7 +23,7 @@
 
         <!-- Mapping static resource -->
         <mvc:resources mapping="/resources/**" location="/resources/" />
-        <mvc:resources mapping="/upload/**" location="file://${upload.servlet.location}"/>
+        <mvc:resources mapping="/upload/**" location="file:/${upload.servlet.location}"/>
 
         <bean id="multipartResolver"
               class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

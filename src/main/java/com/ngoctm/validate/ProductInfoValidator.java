@@ -1,6 +1,6 @@
 package com.ngoctm.validate;
 
-import com.ngoctm.entity.Category;
+import com.ngoctm.entity.ProductInfo;
 import com.ngoctm.service.ProductService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,35 +12,37 @@ import org.springframework.validation.Validator;
 import java.util.List;
 
 @Component
-public class CategoryValidater implements Validator {
+public class ProductInfoValidator implements Validator{
 
-    private static final Logger logger = Logger.getLogger(CategoryValidater.class);
+    private static final Logger logger = Logger.getLogger(ProductInfoValidator.class);
 
     @Autowired
     private ProductService productService;
     @Override
     public boolean supports(Class<?> clazz) {
         // TODO Auto-generated method stub
-        return clazz == Category.class;
+        return clazz == ProductInfo.class;
     }
 
     @Override
     public void validate(Object target, Errors errors) {
 
-        Category category = (Category) target;
-        logger.info("validate " + category);
+        ProductInfo productInfo = (ProductInfo) target;
+        logger.info("validate " + productInfo.getMultipartFile().getOriginalFilename());
 
         ValidationUtils.rejectIfEmpty(errors, "code", "msg.required");
         ValidationUtils.rejectIfEmpty(errors, "name", "msg.required");
         ValidationUtils.rejectIfEmpty(errors, "description", "msg.required");
+        ValidationUtils.rejectIfEmpty(errors, "multipartFile", "msg.required");
 
-        if(category.getCode()!=null) {
-            List<Category> results=  productService.findCategoryByProperty("code", category.getCode());
+
+        if(productInfo.getCode()!=null) {
+            List<ProductInfo> results=  productService.findProductInfoByProperty("code", productInfo.getCode());
             if(results!=null && !results.isEmpty() ) {
                 errors.rejectValue("code", "msg.code.exist");
             }
         }
 
-
+        logger.info(errors.getAllErrors().toString());
     }
 }

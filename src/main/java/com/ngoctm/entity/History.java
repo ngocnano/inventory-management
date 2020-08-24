@@ -17,14 +17,18 @@ public class History {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductInfo productInfo;
+    @Column(name = "action_name")
     private String actionName;
     private int type;
     private int qty;
     private BigDecimal price;
+    @Column(name = "active_flag")
     private int activeFlag;
     @CreationTimestamp
+    @Column(name = "create_date")
     private Date createDate;
     @UpdateTimestamp
+    @Column(name = "update_date")
     private Date updateDate;
 
     public History(){

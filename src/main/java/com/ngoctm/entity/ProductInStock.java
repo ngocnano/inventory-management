@@ -4,6 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -13,11 +14,13 @@ public class ProductInStock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_id")
     private ProductInfo productInfo;
     @Column(name = "qty")
     private int qty;
+    @Column(name = "price")
+    private BigDecimal price;
     @Column(name = "active_flag")
     private int activeFlag;
     @Column(name = "create_date")
@@ -85,5 +88,26 @@ public class ProductInStock {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductInStock{" +
+                "id=" + id +
+                ", productInfo=" + productInfo.getName() +
+                ", qty=" + qty +
+                ", price=" + price +
+                ", activeFlag=" + activeFlag +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                '}';
     }
 }

@@ -34,8 +34,8 @@ public class ProductInfo {
     private Date updateDate;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "productInfo")
     private Set<History> histories;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "productInfo")
-    private Set<ProductInStock> productInStocks;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "productInfo")
+    private ProductInStock productInStocks;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "productInfo")
     private Set<Invoice> invoices;
     @Transient
@@ -136,11 +136,11 @@ public class ProductInfo {
         this.histories = histories;
     }
 
-    public Set<ProductInStock> getProductInStocks() {
+    public ProductInStock getProductInStocks() {
         return productInStocks;
     }
 
-    public void setProductInStocks(Set<ProductInStock> productInStocks) {
+    public void setProductInStocks(ProductInStock productInStocks) {
         this.productInStocks = productInStocks;
     }
 
@@ -152,11 +152,36 @@ public class ProductInfo {
         this.invoices = invoices;
     }
 
+    public void addInvoice(Invoice invoice){
+        Set<Invoice> invoiceSet = new HashSet<Invoice>();
+        invoiceSet.add(invoice);
+        this.invoices = invoiceSet;
+    }
+
     public MultipartFile getMultipartFile() {
         return multipartFile;
     }
 
     public void setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductInfo{" +
+                "id=" + id +
+                ", category=" + category +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", activeFlag=" + activeFlag +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                ", histories=" + histories +
+                ", productInStocks=" + productInStocks +
+                ", invoices=" + invoices +
+                ", multipartFile=" + multipartFile +
+                '}';
     }
 }

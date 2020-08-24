@@ -27,25 +27,24 @@ public class BaseDAOImpl<E> implements BaseDAO<E> {
         log.info("find all record from db");
         // get session
         Session session = sessionFactory.getCurrentSession();
-        StringBuilder queryString = new StringBuilder("");
-        queryString.append(" from ").append(getGenericName()).append(" as model where model.activeFlag=1").append(query);
-        if(paging == null){
-            return session.createQuery(queryString.toString()).getResultList();
-        }
+        StringBuilder queryString = new StringBuilder();
+        queryString.append(" from ").append(getGenericName()).append(" as model where model.activeFlag=1");
 
-        // count record if query first time
-        if(paging.getTotalRows() == 0 && paging != null){
+        if(query != null){
+            queryString.append(query);
+        }
+        if(paging != null) {
+            // count record if query first time
             StringBuilder queryCount = new StringBuilder();
             queryCount.append("select count(id) from ").append(getGenericName()).append(" as model where model.activeFlag=1");
             long totalRows = (long) session.createQuery(queryCount.toString()).uniqueResult();
             paging.setTotalRows(totalRows);
+            log.info( "Query find all ====>" +queryString.toString());
+            return session.createQuery(queryString.toString()).setFirstResult(paging.getOffset()).
+                    setMaxResults(paging.getRecordPerPage()).list();
         }
-
-
         log.info( "Query find all ====>" +queryString.toString());
-
-        return session.createQuery(queryString.toString()).setFirstResult(paging.getOffset()).
-                setMaxResults(paging.getRecordPerPage()).list();
+        return session.createQuery(queryString.toString()).getResultList();
     }
 
     public E findById(Class<E> e, Serializable id) {

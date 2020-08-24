@@ -19,7 +19,7 @@
                 <!-- Child menu -->
                 <ul class="nav child_menu">
                     <c:forEach items="${menu.menuChild}" var="menuC">
-                    <li><a href="<c:url value="${menu.url}/${menuC.url}"/>">${menuC.name}</a></li>
+                    <li><a href="<c:url value="${menu.url}${menuC.url}"/>">${menuC.name}</a></li>
                     </c:forEach>
                 </ul>
                 <!-- Child menu -->

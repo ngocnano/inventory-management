@@ -7,18 +7,17 @@ public class Paging {
     private int  indexPage;
     private int recordPerPage;
     private int offset;
+    private boolean status;
 
-    public Paging(long totalRows, int totalPages, int indexPage, int recordPerPage, int offset) {
-        this.totalRows = totalRows;
-        this.totalPages = totalPages;
-        this.indexPage = indexPage;
-        this.recordPerPage = recordPerPage;
-        this.offset = offset;
-    }
+
 
     public Paging(int recordPerPage){
         this.recordPerPage = recordPerPage;
-        this.indexPage = 1;
+    }
+
+    public Paging(int recordPerPage, int indexPage){
+        this.recordPerPage = recordPerPage;
+        this.indexPage = indexPage;
     }
 
     public long getTotalRows() {
@@ -70,5 +69,13 @@ public class Paging {
             this.totalPages = (int) Math.ceil(totalRows/(double) recordPerPage);
         }
         this.offset = indexPage*recordPerPage - recordPerPage;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

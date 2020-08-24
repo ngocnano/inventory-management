@@ -16,13 +16,13 @@
 
 					<div class="x_content">
 						<br />
-						<form:form modelAttribute="productInfo" cssClass="form-horizontal form-label-left" servletRelativeAction="/product/productInfo/save" method="POST" enctype="multipart/form-data">
+						<form:form modelAttribute="productInfo" cssClass="form-horizontal form-label-left" servletRelativeAction="/product/product-info/save" method="POST" enctype="multipart/form-data">
 							<form:hidden path="id" />
 							<form:hidden path="activeFlag" />
 							<form:hidden path="imgUrl" />
 							<div class="form-group">
 
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="category.name">Category <span class="required">*</span>
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="category.id">Category <span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 
@@ -103,6 +103,6 @@
 				$('#product-infolistId').parents().show();
 			});
 	function cancel() {
-		window.location.href = '<c:url value="/product-info/list"/>'
+		window.location.href = '<c:url value="/product/product-info/list"/>'
 	}
 </script>

@@ -4,7 +4,7 @@ import com.ngoctm.entity.Category;
 import com.ngoctm.entity.Paging;
 import com.ngoctm.entity.ProductInfo;
 import com.ngoctm.service.ProductService;
-import com.ngoctm.validate.ProductInfoValidater;
+import com.ngoctm.validate.ProductInfoValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,27 +13,24 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/product/productInfo")
+@RequestMapping("/product/product-info")
 public class ProductInfoController {
 
     static final Logger logger = Logger.getLogger(ProductInfoController.class);
-
-    private Paging paging;
 
     @Autowired
     ProductService productService;
 
     @Autowired
-    ProductInfoValidater productInfoValidater;
+    ProductInfoValidator productInfoValidator;
 
     @InitBinder
     private void initBinder(WebDataBinder binder){
@@ -41,29 +38,30 @@ public class ProductInfoController {
             return;
         }
         if(binder.getTarget().getClass() == ProductInfo.class){
-            binder.setValidator(productInfoValidater);
+            binder.setValidator(productInfoValidator);
         }
     }
 
     @RequestMapping("/list")
-    public String redirect() {
-        return "redirect:/product/list/1";
+    public String redirect(HttpSession session) {
+
+        if(session.getAttribute("searchFormP") != null){
+            session.removeAttribute("searchFormP");
+        }
+
+        return "redirect:/product/product-info/list/1";
     }
 
-    @GetMapping("/list/{page}")
-    public String showProductInfoList(@PathVariable("page") int page,Model model){
+    @RequestMapping("/list/{page}")
+    public String showProductInfoList(@PathVariable("page") int page,Model model,
+                                      @ModelAttribute("searchFormP") ProductInfo productInfo){
         logger.info("show productInfo list");
-        if(paging == null){
-            paging = new Paging(10);
-        }
-        else {
-            paging.setIndexPage(page);
-        }
+        Paging paging = new Paging(10,page);
 
-        List<ProductInfo> productInfoList = productService.findAllPrductInfo(paging);
+        List<ProductInfo> productInfoList = productService.findAllPrductInfo(productInfo,paging);
         model.addAttribute("listProductInfo", productInfoList);
-        model.addAttribute("searchForm", new Category());
         model.addAttribute("pageInfo", paging);
+
         return "product/product-list";
     }
 
@@ -107,13 +105,13 @@ public class ProductInfoController {
         } else {
             productService.updateProductInfo(productInfo);
         }
-        model.addAttribute("searchForm", new ProductInfo());
+        model.addAttribute("searchFormP", new ProductInfo());
 
         return "product/product-list";
     }
 
     private void getListCategory(Model model) {
-        List<Category> categoryList = productService.findAllCategory(null);
+        List<Category> categoryList = productService.findAllCategory(null,null);
         Map<Integer,String> categoryMap = new HashMap<>();
         for (Category category: categoryList) {
             categoryMap.put(category.getId(),category.getName());
@@ -130,17 +128,7 @@ public class ProductInfoController {
         }
         productService.deleteProductInfo(productInfo);
 
-        return "redirect:/product/productInfo/list";
-    }
-
-    @PostMapping("/search")
-    public String searchCategory(@ModelAttribute("searchForm") ProductInfo productInfo, Model model){
-
-        logger.info("search product" + productInfo);
-        List<ProductInfo> productInfoList = productService.searchProductInfo(productInfo, paging);
-        model.addAttribute("listProduct", productInfoList);
-        model.addAttribute("searchForm", productInfo);
-        return "product/product-list";
+        return "redirect:/product/product-info/list";
     }
 
 }
